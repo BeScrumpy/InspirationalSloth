@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Slothsy</string>
+    <string name="action_settings">Settings</string>
+    <string name="random_quote"> Slothspiration!</string>
+    <string name="greeting">Good day, Human!</string>
+
+</resources>
