@@ -5,6 +5,7 @@ package app.nelson.bescrumpy.com.inspirationalsloth;
  */
 
 import android.content.res.Resources;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     ImageButton speakerButton;
     private String[] quotes;
     private static final Random rgenerator = new Random();
+    private String prevQuote;
 
 
     public LoginFragment() {
@@ -68,21 +70,51 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
             case R.id.randomQuoteButton:
                 ImageButton randomQuoteButton = (ImageButton) v;
-
-                Resources res = getResources();
-                quotes = res.getStringArray(R.array.quoteArray);
-                String oneQuote = quotes[rgenerator.nextInt(quotes.length)];
-                TextView text = (TextView) getActivity().findViewById(R.id.theRandomQuote);
-                text.setText(oneQuote);
-                if(buttonIsBlue){
-                    randomQuoteButton.setImageResource(R.drawable.pink_banner);
-                    buttonIsBlue = false;
-                }
-                else{
-                    randomQuoteButton.setImageResource(R.drawable.blue_banner);
-                    buttonIsBlue = true;
-                }
+                getQuote();
+                changeRandomQuoteButton();
+                playSlothSqueek();
                 break;
         }
     }
+
+    //RandomQuote Button Functions
+    //----------------------------------------------------------------------------------------------
+
+    /**
+     * This method getQuote(), retrieves the quote from the quoteArray, and sets the text of
+     * the theRandomQuote Textview, to the quote.
+     */
+    public void getQuote(){
+        Resources res = getResources();
+        quotes = res.getStringArray(R.array.quoteArray);
+        String oneQuote = quotes[rgenerator.nextInt(quotes.length)];
+        //Ensures that the quote you are getting isn't the one given to you previously
+        while (oneQuote.equals(prevQuote)){
+            oneQuote = quotes[rgenerator.nextInt(quotes.length)];
+        }
+        prevQuote = oneQuote;
+        TextView text = (TextView) getActivity().findViewById(R.id.theRandomQuote);
+        text.setText(oneQuote);
+    }
+
+    /**
+     * This method changeRandomQuoteButton(), changes the randomQuoteButton to give a response to
+     * the user when they click on the RandomQuote Button.
+     */
+    public void changeRandomQuoteButton(){
+        if(buttonIsBlue){
+            randomQuoteButton.setImageResource(R.drawable.pink_banner);
+            buttonIsBlue = false;
+        }
+        else{
+            randomQuoteButton.setImageResource(R.drawable.blue_banner);
+            buttonIsBlue = true;
+        }
+    }
+
+    public void playSlothSqueek(){
+        MediaPlayer slothsqueek = MediaPlayer.create(getView().getContext(), R.raw.slothsqueek);
+        slothsqueek.start();
+    }
+    //--------------------------------------------------------------------------------------------
 }
