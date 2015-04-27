@@ -5,6 +5,7 @@ package app.nelson.bescrumpy.com.inspirationalsloth;
  */
 
 import android.content.res.Resources;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,7 +19,7 @@ import java.util.Random;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LoginFragment extends Fragment implements View.OnClickListener {
+public class MainFragment extends Fragment implements View.OnClickListener {
     boolean buttonIsBlue;
     boolean speakerIsOn;
     ImageButton randomQuoteButton;
@@ -26,20 +27,24 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private String[] quotes;
     private static final Random rgenerator = new Random();
     private String prevQuote;
+    MediaPlayer slothsqueek = null;
+    MediaPlayer backgroundMusic = null;
 
 
-    public LoginFragment() {
+    public MainFragment() {
         //Has to be empty
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         randomQuoteButton = (ImageButton) rootView.findViewById(R.id.randomQuoteButton);
         speakerButton = (ImageButton) rootView.findViewById(R.id.speakerButton);
         speakerButton.setOnClickListener(this);
         randomQuoteButton.setOnClickListener(this);
+
+
 
         //The first picture of the random Quote button is blue.
         buttonIsBlue = true;
@@ -113,8 +118,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     public void playSlothSqueek(){
-        MediaPlayer slothsqueek = MediaPlayer.create(getView().getContext(), R.raw.slothsqueek);
+        if (slothsqueek != null){
+            slothsqueek.reset();
+            slothsqueek.release();
+        }
+        slothsqueek = MediaPlayer.create(getView().getContext(), R.raw.slothsqueek);
+
+
+//        slothsqueek.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//        slothsqueek.setLooping(true);
         slothsqueek.start();
+
     }
     //--------------------------------------------------------------------------------------------
 }

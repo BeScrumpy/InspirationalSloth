@@ -1,5 +1,8 @@
 package app.nelson.bescrumpy.com.inspirationalsloth;
 
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,6 +11,7 @@ import android.view.MenuItem;
 
 
 public class MainActivity extends ActionBarActivity{
+    BackgroundSound mBackgroundSound = new BackgroundSound();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +20,7 @@ public class MainActivity extends ActionBarActivity{
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new LoginFragment())
+                    .add(R.id.container, new MainFragment())
                     .commit();
         }
     }
@@ -45,5 +49,34 @@ public class MainActivity extends ActionBarActivity{
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onResume() {
+        super.onResume();
+        mBackgroundSound.execute();
+    }
+
+    public void onPause() {
+        super.onPause();
+        mBackgroundSound.cancel(true);
+    }
+
+
+    /**
+     * http://stackoverflow.com/questions/7928803/background-music-android
+     */
+    public class BackgroundSound extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            MediaPlayer player = MediaPlayer.create(MainActivity.this, R.raw.calm_backgroundmusic);
+
+            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            player.setLooping(true); // Set looping
+            player.setVolume(100,100);
+            player.start();
+
+            return null;
+        }
     }
 }
