@@ -29,7 +29,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     private String prevQuote;
     MediaPlayer slothsqueek = null;
     MediaPlayer backgroundMusic = null;
-
+    boolean soundOn = true;
 
     public MainFragment() {
         //Has to be empty
@@ -65,10 +65,15 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
                 if(speakerIsOn){
                     speakerButton.setImageResource(R.drawable.sound_icon_off_100);
+                    soundOn = false;
                     speakerIsOn = false;
+                    if (slothsqueek != null){
+                        slothsqueek.stop();
+                    }
                 }
                 else{
                     speakerButton.setImageResource(R.drawable.sound_icon_100);
+                    soundOn = true;
                     speakerIsOn = true;
                 }
                 break;
@@ -118,17 +123,19 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     }
 
     public void playSlothSqueek(){
-        if (slothsqueek != null){
-            slothsqueek.reset();
-            slothsqueek.release();
-        }
-        slothsqueek = MediaPlayer.create(getView().getContext(), R.raw.slothsqueek);
+        if (soundOn) {
+            if (slothsqueek != null){
+                slothsqueek.reset();
+                slothsqueek.release();
+            }
+            slothsqueek = MediaPlayer.create(getView().getContext(), R.raw.slothsqueek);
 
 
 //        slothsqueek.setAudioStreamType(AudioManager.STREAM_MUSIC);
 //        slothsqueek.setLooping(true);
-        slothsqueek.start();
+            slothsqueek.start();
 
-    }
+        }
+        }
     //--------------------------------------------------------------------------------------------
 }

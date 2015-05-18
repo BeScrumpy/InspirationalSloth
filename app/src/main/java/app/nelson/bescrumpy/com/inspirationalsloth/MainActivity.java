@@ -11,7 +11,8 @@ import android.view.MenuItem;
 
 
 public class MainActivity extends ActionBarActivity{
-    BackgroundSound mBackgroundSound = new BackgroundSound();
+    //Removed the background noise for now, because it was annoying.
+    //BackgroundSound mBackgroundSound = new BackgroundSound();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +54,18 @@ public class MainActivity extends ActionBarActivity{
 
     public void onResume() {
         super.onResume();
-        mBackgroundSound.execute();
+        //mBackgroundSound.execute();
     }
 
     public void onPause() {
         super.onPause();
-        mBackgroundSound.cancel(true);
+        //mBackgroundSound.cancel(true);
     }
 
 
     /**
      * http://stackoverflow.com/questions/7928803/background-music-android
+     * The background sound was really annoying turned into an unused method.
      */
     public class BackgroundSound extends AsyncTask<Void, Void, Void> {
 
