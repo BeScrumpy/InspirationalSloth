@@ -7,7 +7,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageButton;
 
 
 public class MainActivity extends ActionBarActivity{
@@ -18,6 +21,9 @@ public class MainActivity extends ActionBarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        View mainView = findViewById(R.id.container);
+        View root = mainView.getRootView();
+        root.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_light));
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -61,7 +67,6 @@ public class MainActivity extends ActionBarActivity{
         super.onPause();
         //mBackgroundSound.cancel(true);
     }
-
 
     /**
      * http://stackoverflow.com/questions/7928803/background-music-android

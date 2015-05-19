@@ -4,6 +4,7 @@ package app.nelson.bescrumpy.com.inspirationalsloth;
  * Created by Nelson on 4/16/2015.
  */
 
+import android.app.Activity;
 import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -21,15 +22,13 @@ import java.util.Random;
  */
 public class MainFragment extends Fragment implements View.OnClickListener {
     boolean buttonIsBlue;
-    boolean speakerIsOn;
     ImageButton randomQuoteButton;
     ImageButton speakerButton;
     private String[] quotes;
     private static final Random rgenerator = new Random();
     private String prevQuote;
-    MediaPlayer slothsqueek = null;
-    MediaPlayer backgroundMusic = null;
     boolean soundOn = true;
+    MediaPlayer slothsqueek = null;
 
     public MainFragment() {
         //Has to be empty
@@ -40,16 +39,12 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         randomQuoteButton = (ImageButton) rootView.findViewById(R.id.randomQuoteButton);
+        randomQuoteButton.setOnClickListener(this);
         speakerButton = (ImageButton) rootView.findViewById(R.id.speakerButton);
         speakerButton.setOnClickListener(this);
-        randomQuoteButton.setOnClickListener(this);
-
-
 
         //The first picture of the random Quote button is blue.
         buttonIsBlue = true;
-        //The speaker will be on when the application first started
-        speakerIsOn = true;
 
         return rootView;
     }
@@ -59,27 +54,22 @@ public class MainFragment extends Fragment implements View.OnClickListener {
      * This onClick method, handles everything of the main fragment.
      */
     public void onClick(View v) {
-        switch(v.getId()){
+        switch(v.getId()) {
             case R.id.speakerButton:
-                ImageButton speakerButton = (ImageButton) v;
-
-                if(speakerIsOn){
-                    speakerButton.setImageResource(R.drawable.sound_icon_off_100);
+                speakerButton = (ImageButton) v;
+                if (soundOn) {
                     soundOn = false;
-                    speakerIsOn = false;
+                    speakerButton.setImageResource(R.drawable.sound_icon_off_100);
                     if (slothsqueek != null){
                         slothsqueek.stop();
                     }
-                }
-                else{
+                } else {
                     speakerButton.setImageResource(R.drawable.sound_icon_100);
                     soundOn = true;
-                    speakerIsOn = true;
                 }
                 break;
-
             case R.id.randomQuoteButton:
-                ImageButton randomQuoteButton = (ImageButton) v;
+                randomQuoteButton = (ImageButton) v;
                 getQuote();
                 changeRandomQuoteButton();
                 playSlothSqueek();
@@ -131,11 +121,8 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             slothsqueek = MediaPlayer.create(getView().getContext(), R.raw.slothsqueek);
 
 
-//        slothsqueek.setAudioStreamType(AudioManager.STREAM_MUSIC);
-//        slothsqueek.setLooping(true);
             slothsqueek.start();
 
         }
-        }
-    //--------------------------------------------------------------------------------------------
+    }
 }
